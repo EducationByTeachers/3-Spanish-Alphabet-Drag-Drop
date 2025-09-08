@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Drag & Drop - Spanish Alphabet (20)</title>
+  <style>
+    :root{
+      --bg:#f0f4ff; --card:#fff; --primary:#4b7bfd; --dark:#1E3A8A;
+      --ok:#a5d6a7; --bad:#ef9a9a; --drg:#ffeb3b;
+    }
+    body{
+      font-family: Inter, system-ui, Arial;
+      background: var(--bg);
+      margin:0; padding:28px;
+      color:#0b2545;
+    }
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    h1{ margin:0; color:var(--dark); font-size:20px; }
+    #score {
+      background:var(--card);
+      padding:10px 14px;
+      border-radius:10px;
+      box-shadow:0 6px 14px rgba(16,24,40,0.06);
+      font-weight:600;
+    }
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap:16px;
+    }
+
+    .section{
+      background:var(--card);
+      border-radius:12px;
+      padding:14px;
+      box-shadow:0 6px 14px rgba(16,24,40,0.06);
+      text-align:center;
+    }
+    .section h2{
+      margin:0 0 8px; font-size:16px; color:var(--dark);
+    }
+    .hint { margin:0 0 10px; color:#334155; font-size:13px; }
+
+    .drag-row { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:12px; }
+    .drag-source {
+      min-height:48px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      flex-wrap:wrap;
+      padding:10px;
+    }
+
+    .draggable{
+      user-select:none;
+      padding:8px 12px;
+      background:var(--drg);
+      border-radius:8px;
+      cursor:grab;
+      box-shadow:0 4px 8px rgba(2,6,23,0.06);
+      border:1px solid rgba(0,0,0,0.06);
+      font-weight:600;
+    }
+    .draggable.selected { outline:3px solid rgba(59,130,246,0.2); transform:translateY(-3px); }
+
+    .dropzone{
+      width:120px;
+      height:44px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:8px;
+      border:2px dashed var(--primary);
+      background:#fafbff;
+      font-weight:700;
+      color:var(--dark);
+      transition:background .18s, border-color .18s;
+    }
+    .dropzone.correct { background:var(--ok); border-style:solid; border-color:transparent; color:#07361a; }
+    .dropzone.wrong { background:var(--bad); border-color:transparent; color:#5d0808; }
+
+    footer{
+      margin-top:18px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    #restart {
+      background:#f44336; color:white; border:none;
+      padding:10px 16px; border-radius:10px; cursor:pointer; font-weight:700;
+      box-shadow:0 6px 16px rgba(244,67,54,0.18);
+    }
+    #note { font-size:13px; color:#334155; }
+    @media (max-width:420px){
+      .dropzone{ width:96px; height:44px; font-size:14px }
+      .draggable{ padding:7px 10px; font-size:14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Spanish Alphabet — Drag & Drop (20)</h1>
+    <div id="score">Correct: <span id="correctCount">0</span> / <span id="totalCount">0</span></div>
+  </header>
+
+  <main>
+    <div class="grid" id="grid">
+
+      <!-- 1 -->
+      <section class="section" data-index="1">
+        <h2>1: Drag and Drop</h2>
+        <p class="hint">Drag the Spanish name to the box with the correct letter..</p>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="1">
+            <div id="d-1-a" class="draggable" draggable="true" data-letter="A" data-name="a">a</div>
+            <div id="d-1-be" class="draggable" draggable="true" data-letter="B" data-name="be">be</div>
+            <div id="d-1-ce" class="draggable" draggable="true" data-letter="C" data-name="ce">ce</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="A" data-label="A">A</div>
+          <div class="dropzone" data-letter="B" data-label="B">B</div>
+          <div class="dropzone" data-letter="C" data-label="C">C</div>
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section class="section" data-index="2">
+        <h2>2: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="2">
+            <div id="d-2-de" class="draggable" draggable="true" data-letter="D" data-name="de">de</div>
+            <div id="d-2-e" class="draggable" draggable="true" data-letter="E" data-name="e">e</div>
+            <div id="d-2-efe" class="draggable" draggable="true" data-letter="F" data-name="efe">efe</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="D" data-label="D">D</div>
+          <div class="dropzone" data-letter="E" data-label="E">E</div>
+          <div class="dropzone" data-letter="F" data-label="F">F</div>
+        </div>
+      </section>
+
+      <!-- 3 -->
+      <section class="section" data-index="3">
+        <h2>3: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="3">
+            <div id="d-3-ge" class="draggable" draggable="true" data-letter="G" data-name="ge">ge</div>
+            <div id="d-3-hache" class="draggable" draggable="true" data-letter="H" data-name="hache">hache</div>
+            <div id="d-3-i" class="draggable" draggable="true" data-letter="I" data-name="i">i</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="G" data-label="G">G</div>
+          <div class="dropzone" data-letter="H" data-label="H">H</div>
+          <div class="dropzone" data-letter="I" data-label="I">I</div>
+        </div>
+      </section>
+
+      <!-- 4 -->
+      <section class="section" data-index="4">
+        <h2>4: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="4">
+            <div id="d-4-jota" class="draggable" draggable="true" data-letter="J" data-name="jota">jota</div>
+            <div id="d-4-ka" class="draggable" draggable="true" data-letter="K" data-name="ka">ka</div>
+            <div id="d-4-ele" class="draggable" draggable="true" data-letter="L" data-name="ele">ele</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="J" data-label="J">J</div>
+          <div class="dropzone" data-letter="K" data-label="K">K</div>
+          <div class="dropzone" data-letter="L" data-label="L">L</div>
+        </div>
+      </section>
+
+      <!-- 5 -->
+      <section class="section" data-index="5">
+        <h2>5: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="5">
+            <div id="d-5-eme" class="draggable" draggable="true" data-letter="M" data-name="eme">eme</div>
+            <div id="d-5-ene" class="draggable" draggable="true" data-letter="N" data-name="ene">ene</div>
+            <div id="d-5-ene-tilde" class="draggable" draggable="true" data-letter="Ñ" data-name="eñe">eñe</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="M" data-label="M">M</div>
+          <div class="dropzone" data-letter="N" data-label="N">N</div>
+          <div class="dropzone" data-letter="Ñ" data-label="Ñ">Ñ</div>
+        </div>
+      </section>
+
+      <!-- 6 -->
+      <section class="section" data-index="6">
+        <h2>6: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="6">
+            <div id="d-6-o" class="draggable" draggable="true" data-letter="O" data-name="o">o</div>
+            <div id="d-6-pe" class="draggable" draggable="true" data-letter="P" data-name="pe">pe</div>
+            <div id="d-6-cu" class="draggable" draggable="true" data-letter="Q" data-name="cu">cu</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="O" data-label="O">O</div>
+          <div class="dropzone" data-letter="P" data-label="P">P</div>
+          <div class="dropzone" data-letter="Q" data-label="Q">Q</div>
+        </div>
+      </section>
+
+      <!-- 7 -->
+      <section class="section" data-index="7">
+        <h2>7: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="7">
+            <div id="d-7-ere" class="draggable" draggable="true" data-letter="R" data-name="ere">ere</div>
+            <div id="d-7-ese" class="draggable" draggable="true" data-letter="S" data-name="ese">ese</div>
+            <div id="d-7-te" class="draggable" draggable="true" data-letter="T" data-name="te">te</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="R" data-label="R">R</div>
+          <div class="dropzone" data-letter="S" data-label="S">S</div>
+          <div class="dropzone" data-letter="T" data-label="T">T</div>
+        </div>
+      </section>
+
+      <!-- 8 -->
+      <section class="section" data-index="8">
+        <h2>8: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="8">
+            <div id="d-8-u" class="draggable" draggable="true" data-letter="U" data-name="u">u</div>
+            <div id="d-8-uve" class="draggable" draggable="true" data-letter="V" data-name="uve">uve</div>
+            <div id="d-8-w" class="draggable" draggable="true" data-letter="W" data-name="uve doble">uve doble</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="U" data-label="U">U</div>
+          <div class="dropzone" data-letter="V" data-label="V">V</div>
+          <div class="dropzone" data-letter="W" data-label="W">W</div>
+        </div>
+      </section>
+
+      <!-- 9 -->
+      <section class="section" data-index="9">
+        <h2>9: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="9">
+            <div id="d-9-x" class="draggable" draggable="true" data-letter="X" data-name="equis">equis</div>
+            <div id="d-9-y" class="draggable" draggable="true" data-letter="Y" data-name="i griega">i griega</div>
+            <div id="d-9-z" class="draggable" draggable="true" data-letter="Z" data-name="zeta">zeta</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="X" data-label="X">X</div>
+          <div class="dropzone" data-letter="Y" data-label="Y">Y</div>
+          <div class="dropzone" data-letter="Z" data-label="Z">Z</div>
+        </div>
+      </section>
+
+      <!-- 10 -->
+      <section class="section" data-index="10">
+        <h2>10: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="10">
+            <div id="d-10-a" class="draggable" draggable="true" data-letter="A" data-name="a">a</div>
+            <div id="d-10-e" class="draggable" draggable="true" data-letter="E" data-name="e">e</div>
+            <div id="d-10-i" class="draggable" draggable="true" data-letter="I" data-name="i">i</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="A" data-label="A">A</div>
+          <div class="dropzone" data-letter="E" data-label="E">E</div>
+          <div class="dropzone" data-letter="I" data-label="I">I</div>
+        </div>
+      </section>
+
+      <!-- 11 -->
+      <section class="section" data-index="11">
+        <h2>11: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="11">
+            <div id="d-11-o" class="draggable" draggable="true" data-letter="O" data-name="o">o</div>
+            <div id="d-11-u" class="draggable" draggable="true" data-letter="U" data-name="u">u</div>
+            <div id="d-11-y" class="draggable" draggable="true" data-letter="Y" data-name="i griega">i griega</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="O" data-label="O">O</div>
+          <div class="dropzone" data-letter="U" data-label="U">U</div>
+          <div class="dropzone" data-letter="Y" data-label="Y">Y</div>
+        </div>
+      </section>
+
+      <!-- 12 -->
+      <section class="section" data-index="12">
+        <h2>12: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="12">
+            <div id="d-12-be" class="draggable" draggable="true" data-letter="B" data-name="be">be</div>
+            <div id="d-12-uve" class="draggable" draggable="true" data-letter="V" data-name="uve">uve</div>
+            <div id="d-12-w2" class="draggable" draggable="true" data-letter="W" data-name="uve doble">uve doble</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="B" data-label="B">B</div>
+          <div class="dropzone" data-letter="V" data-label="V">V</div>
+          <div class="dropzone" data-letter="W" data-label="W">W</div>
+        </div>
+      </section>
+
+      <!-- 13 -->
+      <section class="section" data-index="13">
+        <h2>13: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="13">
+            <div id="d-13-ce" class="draggable" draggable="true" data-letter="C" data-name="ce">ce</div>
+            <div id="d-13-ese" class="draggable" draggable="true" data-letter="S" data-name="ese">ese</div>
+            <div id="d-13-zeta" class="draggable" draggable="true" data-letter="Z" data-name="zeta">zeta</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="C" data-label="C">C</div>
+          <div class="dropzone" data-letter="S" data-label="S">S</div>
+          <div class="dropzone" data-letter="Z" data-label="Z">Z</div>
+        </div>
+      </section>
+
+      <!-- 14 -->
+      <section class="section" data-index="14">
+        <h2>14: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="14">
+            <div id="d-14-ge2" class="draggable" draggable="true" data-letter="G" data-name="ge">ge</div>
+            <div id="d-14-jota2" class="draggable" draggable="true" data-letter="J" data-name="jota">jota</div>
+            <div id="d-14-hache2" class="draggable" draggable="true" data-letter="H" data-name="hache">hache</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="G" data-label="G">G</div>
+          <div class="dropzone" data-letter="J" data-label="J">J</div>
+          <div class="dropzone" data-letter="H" data-label="H">H</div>
+        </div>
+      </section>
+
+      <!-- 15 -->
+      <section class="section" data-index="15">
+        <h2>15: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="15">
+            <div id="d-15-ele" class="draggable" draggable="true" data-letter="L" data-name="ele">ele</div>
+            <div id="d-15-eme2" class="draggable" draggable="true" data-letter="M" data-name="eme">eme</div>
+            <div id="d-15-ene2" class="draggable" draggable="true" data-letter="N" data-name="ene">ene</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="L" data-label="L">L</div>
+          <div class="dropzone" data-letter="M" data-label="M">M</div>
+          <div class="dropzone" data-letter="N" data-label="N">N</div>
+        </div>
+      </section>
+
+      <!-- 16 -->
+      <section class="section" data-index="16">
+        <h2>16: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="16">
+            <div id="d-16-pe" class="draggable" draggable="true" data-letter="P" data-name="pe">pe</div>
+            <div id="d-16-cu2" class="draggable" draggable="true" data-letter="Q" data-name="cu">cu</div>
+            <div id="d-16-ere2" class="draggable" draggable="true" data-letter="R" data-name="ere">ere</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="P" data-label="P">P</div>
+          <div class="dropzone" data-letter="Q" data-label="Q">Q</div>
+          <div class="dropzone" data-letter="R" data-label="R">R</div>
+        </div>
+      </section>
+
+      <!-- 17 -->
+      <section class="section" data-index="17">
+        <h2>17: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="17">
+            <div id="d-17-ese2" class="draggable" draggable="true" data-letter="S" data-name="ese">ese</div>
+            <div id="d-17-te2" class="draggable" draggable="true" data-letter="T" data-name="te">te</div>
+            <div id="d-17-u2" class="draggable" draggable="true" data-letter="U" data-name="u">u</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="S" data-label="S">S</div>
+          <div class="dropzone" data-letter="T" data-label="T">T</div>
+          <div class="dropzone" data-letter="U" data-label="U">U</div>
+        </div>
+      </section>
+
+      <!-- 18 -->
+      <section class="section" data-index="18">
+        <h2>18: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="18">
+            <div id="d-18-uve2" class="draggable" draggable="true" data-letter="V" data-name="uve">uve</div>
+            <div id="d-18-equis2" class="draggable" draggable="true" data-letter="X" data-name="equis">equis</div>
+            <div id="d-18-zeta2" class="draggable" draggable="true" data-letter="Z" data-name="zeta">zeta</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="V" data-label="V">V</div>
+          <div class="dropzone" data-letter="X" data-label="X">X</div>
+          <div class="dropzone" data-letter="Z" data-label="Z">Z</div>
+        </div>
+      </section>
+
+      <!-- 19 -->
+      <section class="section" data-index="19">
+        <h2>19: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="19">
+            <div id="d-19-eñe2" class="draggable" draggable="true" data-letter="Ñ" data-name="eñe">eñe</div>
+            <div id="d-19-y2" class="draggable" draggable="true" data-letter="Y" data-name="i griega">i griega</div>
+            <div id="d-19-o2" class="draggable" draggable="true" data-letter="O" data-name="o">o</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="Ñ" data-label="Ñ">Ñ</div>
+          <div class="dropzone" data-letter="Y" data-label="Y">Y</div>
+          <div class="dropzone" data-letter="O" data-label="O">O</div>
+        </div>
+      </section>
+
+      <!-- 20 -->
+      <section class="section" data-index="20">
+        <h2>20: Drag and Drop</h2>
+        <div class="drag-row">
+          <div class="drag-source" data-source-for="20">
+            <div id="d-20-ka" class="draggable" draggable="true" data-letter="K" data-name="ka">ka</div>
+            <div id="d-20-w3" class="draggable" draggable="true" data-letter="W" data-name="uve doble">uve doble</div>
+            <div id="d-20-hache3" class="draggable" draggable="true" data-letter="H" data-name="hache">hache</div>
+          </div>
+        </div>
+        <div class="drag-row">
+          <div class="dropzone" data-letter="K" data-label="K">K</div>
+          <div class="dropzone" data-letter="W" data-label="W">W</div>
+          <div class="dropzone" data-letter="H" data-label="H">H</div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer>
+    <button id="restart" title="Restart the whole activity">🔄 Restart</button>
+    <div id="note">Puedes arrastrar o seleccionar con clic (click) y luego tocar el recuadro para soltar.</div>
+  </footer>
+
+  <script>
+    (function(){
+      // state
+      let selected = null; // selected draggable for click-to-drop
+      const allSections = document.querySelectorAll('.section');
+      const correctCountEl = document.getElementById('correctCount');
+      const totalCountEl = document.getElementById('totalCount');
+      let correctCount = 0;
+      const dropzonesAll = Array.from(document.querySelectorAll('.dropzone'));
+      const TOTAL = dropzonesAll.length;
+      totalCountEl.textContent = TOTAL;
+      correctCountEl.textContent = correctCount;
+
+      // Utility: shuffle children of an element
+      function shuffleContainer(container){
+        const items = Array.from(container.children);
+        for(let i = items.length -1; i > 0; i--){
+          const j = Math.floor(Math.random() * (i + 1));
+          container.appendChild(items[j]);
+        }
+      }
+
+      // enable drag & click handlers for draggable node
+      function enableDraggable(node){
+        node.setAttribute('draggable','true');
+        node.classList.remove('disabled');
+        node.style.opacity = '1';
+        // dragstart
+        node.addEventListener('dragstart', e=>{
+          e.dataTransfer.setData('text/id', node.id);
+          // fallback for older browsers
+          try { e.dataTransfer.setData('text/plain', node.id); } catch(e){}
+        });
+        // click to select
+        node.addEventListener('click', e=>{
+          // toggle selection
+          if(selected && selected === node){
+            node.classList.remove('selected');
+            selected = null;
+            return;
+          }
+          // unselect previous
+          if(selected) selected.classList.remove('selected');
+          selected = node;
+          node.classList.add('selected');
+        });
+      }
+
+      // install drop handlers
+      function enableDropzone(zone){
+        zone.addEventListener('dragover', e=> e.preventDefault());
+        zone.addEventListener('drop', e=>{
+          e.preventDefault();
+          // if already filled -> ignore
+          if(zone.dataset.filled === 'true') {
+            flash(zone,'wrong');
+            return;
+          }
+          const id = e.dataTransfer.getData('text/id') || e.dataTransfer.getData('text/plain');
+          if(!id) return;
+          const dragged = document.getElementById(id);
+          if(!dragged) return;
+          handlePlace(dragged, zone);
+        });
+
+        // click-to-drop: if a draggable selected
+        zone.addEventListener('click', e=>{
+          if(!selected) return;
+          if(zone.dataset.filled === 'true') { flash(zone,'wrong'); return; }
+          handlePlace(selected, zone);
+        });
+      }
+
+      // place logic: check correct, move element, update UI and score
+      function handlePlace(dragged, zone){
+        // If dragged already placed somewhere else, allow moving only if original dropzone (we don't implement moving back)
+        const draggedLetter = dragged.dataset.letter;
+        const targetLetter = zone.dataset.letter;
+        if(draggedLetter === targetLetter){
+          // correct
+          zone.textContent = dragged.textContent;
+          zone.classList.add('correct');
+          zone.dataset.filled = 'true';
+          // move element INSIDE zone (so it disappears from source)
+          dragged.classList.add('disabled');
+          dragged.setAttribute('draggable','false');
+          dragged.style.opacity = '0';
+          dragged.classList.remove('selected');
+          if(selected && selected === dragged) selected = null;
+          // increment score (but ensure not double counted)
+          correctCount += 1;
+          correctCountEl.textContent = correctCount;
+        } else {
+          // wrong feedback
+          flash(zone,'wrong');
+          flash(dragged,'wrong');
+        }
+      }
+
+      // temporary visual flash
+      function flash(el, cls){
+        el.classList.add(cls);
+        setTimeout(()=> el.classList.remove(cls), 700);
+      }
+
+      // reset a section: move all draggables back to source and reset dropzones
+      function resetSection(section){
+        const source = section.querySelector('.drag-source');
+        // move ANY draggable found in the entire section back to source
+        const draggables = section.querySelectorAll('.draggable');
+        draggables.forEach(d=>{
+          // restore appearance
+          d.classList.remove('disabled','selected');
+          d.style.opacity = '1';
+          d.setAttribute('draggable','true');
+          // ensure it's a child of the source
+          if(d.parentElement !== source) source.appendChild(d);
+        });
+        // reset dropzones
+        const dzs = section.querySelectorAll('.dropzone');
+        dzs.forEach(dz=>{
+          dz.classList.remove('correct','wrong');
+          dz.dataset.filled = 'false';
+          dz.textContent = dz.dataset.label || dz.dataset.letter;
+        });
+        // shuffle pieces in source
+        shuffleContainer(source);
+      }
+
+      // global reset
+      function resetAll(){
+        correctCount = 0;
+        correctCountEl.textContent = correctCount;
+        allSections.forEach(resetSection);
+        // re-enable draggables and listeners
+        setupAll();
+      }
+
+      // setup all event listeners on initial load or after restart
+      function setupAll(){
+        // draggables
+        const drags = document.querySelectorAll('.draggable');
+        drags.forEach(d=>{
+          // remove duplicate listeners by cloning node: simple approach
+          const cloned = d.cloneNode(true);
+          d.parentNode.replaceChild(cloned,d);
+        });
+        // reselect after clones
+        const newDrags = document.querySelectorAll('.draggable');
+        newDrags.forEach(enableDraggable);
+
+        // dropzones
+        const dzs = document.querySelectorAll('.dropzone');
+        dzs.forEach(z=>{
+          // remove previous handlers by cloning
+          const cloned = z.cloneNode(true);
+          z.parentNode.replaceChild(cloned,z);
+        });
+        const newDz = document.querySelectorAll('.dropzone');
+        newDz.forEach(enableDropzone);
+      }
+
+      // Initial shuffle and setup
+      allSections.forEach(section=>{
+        const source = section.querySelector('.drag-source');
+        shuffleContainer(source);
+      });
+
+      setupAll();
+
+      // restart button
+      document.getElementById('restart').addEventListener('click', e=>{
+        // reset everything without reload
+        resetAll();
+        // small animation: flash header score
+        const sc = document.getElementById('score');
+        sc.animate([{transform:'scale(1)'},{ transform:'scale(1.03)'},{transform:'scale(1)'}], {duration:300});
+      });
+
+      // Accessibility: keyboard support for draggables (Enter to select)
+      document.addEventListener('keydown', e=>{
+        if(e.key === 'Escape' && selected){
+          selected.classList.remove('selected');
+          selected = null;
+        }
+      });
+
+    })();
+  </script>
+</body>
+</html>
